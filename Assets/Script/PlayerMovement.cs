@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     
     [Header("Movement Variables")]
     public float moveSpeed = 5f;
-    public float jumpHeight = 15f;
+    public float jumpHeight = 10f;
     private float direction;
     
     [Header("Ground Check")]
@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (Input.GetKeyUp(KeyCode.Space) && rb.linearVelocityY > 0f)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY * 0.5f);
+            rb.linearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY * 0.2f);
         }
     }
 
