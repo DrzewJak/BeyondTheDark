@@ -4,55 +4,123 @@ using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [Header("Menu Buttons")]
-    public Button playButton;
-    public Button optionsButton;
-    public Button quitButton;
-
     [Header("Menu Panels")]
-    public GameObject mainMenuPanel;
-    public GameObject optionsPanel;
+    [SerializeField] private GameObject mainMenuPanel;
+    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject creditsPanel;
 
-    [Header("Settings")]
-    private string gameSceneName = "GameScene";
-    
+    [Header("Buttons")]
+    [SerializeField] private Button startGameButton;
+    [SerializeField] private Button settingsButton;
+    [SerializeField] private Button creditsButton;
+    [SerializeField] private Button quitButton;
+    [SerializeField] private Button backFromSettingsButton;
+    [SerializeField] private Button backFromCreditsButton;
+
+    [Header("Game Start")]
+    [SerializeField] private string firstGameSceneName = "GameScene";
+
+    [Header("Additional Effects")]
+    [SerializeField] private AudioSource menuMusic;
+    [SerializeField] private AudioSource buttonClickSound;
+
     private void Start()
     {
-        
-        if (playButton != null) playButton.onClick.AddListener(PlayGame);
-        if (optionsButton != null) optionsButton.onClick.AddListener(ShowOptions);
-        if (quitButton != null) quitButton.onClick.AddListener(QuitGame);
+        // Initialize button listeners
+        SetupButtonListeners();
 
         ShowMainMenu();
+    }
+
+    private void SetupButtonListeners()
+    {
+        // Main Menu Buttons
+        startGameButton.onClick.AddListener(StartGame);
+        settingsButton.onClick.AddListener(OpenSettingsMenu);
+        creditsButton.onClick.AddListener(OpenCreditsMenu);
+        quitButton.onClick.AddListener(QuitGame);
+
+        // Back Buttons
+        backFromSettingsButton.onClick.AddListener(ShowMainMenu);
+        backFromCreditsButton.onClick.AddListener(ShowMainMenu);
+    }
+
+    private void StartGame()
+    {
+        PlayButtonClickSound();
         
+        SceneManager.LoadScene(firstGameSceneName);
     }
 
-    public void PlayGame()
+    private void OpenSettingsMenu()
     {
-        SceneManager.LoadScene(gameSceneName);
+        PlayButtonClickSound();
+        mainMenuPanel.SetActive(false);
+        settingsPanel.SetActive(true);
+        creditsPanel.SetActive(false);
     }
 
-    public void ShowOptions()
+    private void OpenCreditsMenu()
     {
-        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
-        if (optionsPanel != null) optionsPanel.SetActive(true);
+        PlayButtonClickSound();
+        mainMenuPanel.SetActive(false);
+        settingsPanel.SetActive(false);
+        creditsPanel.SetActive(true);
     }
 
-    public void ShowMainMenu()
+    private void ShowMainMenu()
     {
-        if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
-        if (optionsPanel != null) optionsPanel.SetActive(false);
+        PlayButtonClickSound();
+        mainMenuPanel.SetActive(true);
+        settingsPanel.SetActive(false);
+        creditsPanel.SetActive(false);
     }
 
-    public void QuitGame()
+    private void QuitGame()
     {
-    #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-    #else
-        Application.Quit();
-    #endif
+        PlayButtonClickSound();
+
+        #if UNITY_EDITOR
+            // Quit play mode in Unity Editor
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            // Quit the application
+            Application.Quit();
+        #endif
     }
 
+    private void PlayButtonClickSound()
+    {
+        if (buttonClickSound != null)
+        {
+            buttonClickSound.Play();
+        }
+    }
 
+    // Optional: Fade in/out menu music
+    public void SetMenuMusicVolume(float volume)
+    {
+        if (menuMusic != null)
+        {
+            menuMusic.volume = volume;
+        }
+    }
 
+    // Optional: Start menu music on enable
+    private void OnEnable()
+    {
+        if (menuMusic != null)
+        {
+            menuMusic.Play();
+        }
+    }
+
+    // Optional: Stop menu music on disable
+    private void OnDisable()
+    {
+        if (menuMusic != null)
+        {
+            menuMusic.Stop();
+        }
+    }
 }
