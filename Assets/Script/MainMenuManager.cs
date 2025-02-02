@@ -5,17 +5,17 @@ using UnityEngine.UI;
 public class MainMenuManager : MonoBehaviour
 {
     [Header("Menu Panels")]
-    [SerializeField] private GameObject mainMenuPanel;
+    public GameObject mainMenuPanel;
     [SerializeField] private GameObject settingsPanel;
-    [SerializeField] private GameObject creditsPanel;
+    //[SerializeField] private GameObject creditsPanel;
 
     [Header("Buttons")]
     [SerializeField] private Button startGameButton;
     [SerializeField] private Button settingsButton;
-    [SerializeField] private Button creditsButton;
+    //[SerializeField] private Button creditsButton;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button backFromSettingsButton;
-    [SerializeField] private Button backFromCreditsButton;
+    //[SerializeField] private Button backFromCreditsButton;
 
     [Header("Game Start")]
     [SerializeField] private string firstGameSceneName = "GameScene";
@@ -37,12 +37,12 @@ public class MainMenuManager : MonoBehaviour
         // Main Menu Buttons
         startGameButton.onClick.AddListener(StartGame);
         settingsButton.onClick.AddListener(OpenSettingsMenu);
-        creditsButton.onClick.AddListener(OpenCreditsMenu);
+        //creditsButton.onClick.AddListener(OpenCreditsMenu);
         quitButton.onClick.AddListener(QuitGame);
 
         // Back Buttons
         backFromSettingsButton.onClick.AddListener(ShowMainMenu);
-        backFromCreditsButton.onClick.AddListener(ShowMainMenu);
+        //backFromCreditsButton.onClick.AddListener(ShowMainMenu);
     }
 
     private void StartGame()
@@ -57,7 +57,7 @@ public class MainMenuManager : MonoBehaviour
         PlayButtonClickSound();
         mainMenuPanel.SetActive(false);
         settingsPanel.SetActive(true);
-        creditsPanel.SetActive(false);
+        //creditsPanel.SetActive(false);
     }
 
     private void OpenCreditsMenu()
@@ -65,7 +65,7 @@ public class MainMenuManager : MonoBehaviour
         PlayButtonClickSound();
         mainMenuPanel.SetActive(false);
         settingsPanel.SetActive(false);
-        creditsPanel.SetActive(true);
+        //creditsPanel.SetActive(true);
     }
 
     private void ShowMainMenu()
@@ -73,7 +73,7 @@ public class MainMenuManager : MonoBehaviour
         PlayButtonClickSound();
         mainMenuPanel.SetActive(true);
         settingsPanel.SetActive(false);
-        creditsPanel.SetActive(false);
+        //creditsPanel.SetActive(false);
     }
 
     private void QuitGame()
